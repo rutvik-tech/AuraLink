@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Organizer Dashboard</h2>
+<div class="row mb-3">
+  <div class="col-md-3">
+    <div class="card p-3">
+      <h5>Total Registrations</h5>
+      <h3>{{ stats.total_registrations }}</h3>
+    </div>
+  </div>
+  <div class="col-md-6 text-right">
+    <a href="{% url 'create_event' %}" class="btn btn-success mt-3">Create Event</a>
+  </div>
+</div>
+
+<h4>Your Events</h4>
+<div class="list-group mb-4">
+  {% for event in events %}
+    <a href="{% url 'organizer_event_detail' event.pk %}" class="list-group-item list-group-item-action">
+      <strong>{{ event.title }}</strong> — {{ event.start_time|date:'M d, Y' }}
+    </a>
+  {% empty %}
+    <div class="alert alert-info">You haven't created any events yet.</div>
+  {% endfor %}
+</div>
+
+<h4>Recent Registrations</h4>
+<ul class="list-group">
+  {% for reg in registrations %}
+    <li class="list-group-item">{{ reg.full_name }} — {{ reg.event.title }} <span class="text-muted float-right">{{ reg.created_at|date:'M d' }}</span></li>
+  {% empty %}
+    <li class="list-group-item">No registrations yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

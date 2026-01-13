@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero jumbotron p-5 text-white" style="background-image: url('{{ HERO_IMAGE_URL }}');">
+  <div class="container hero-content">
+    <div class="row align-items-center">
+      <div class="col-md-8 text-white text-center text-md-left">
+        <h1 class="display-4">{{ SITE_NAME }}</h1>
+        <p class="lead"><strong>Plan, Manage, & Join Events Easily</strong></p>
+        <a class="btn btn-gradient btn-lg" href="{% url 'event_list' %}">Explore Events</a>
+      </div>
+      <div class="col-md-4">
+        {% if not user.is_authenticated %}
+        <div class="card p-3 admin-login">
+          <div class="d-flex align-items-center">
+            <div class="admin-icon mr-3">🔒</div>
+            <div>
+              <h5 class="mb-0">Admin Login</h5>
+              <div class="small text-muted">Secure access for site admins</div>
+            </div>
+          </div>
+          <hr>
+          <form method="post">
+            {% csrf_token %}
+            {{ login_form.non_field_errors }}
+            {{ login_form.errors }}
+            <div class="form-group mt-2">
+              <input name="username" type="text" placeholder="Username" class="form-control" value="{{ request.POST.username }}">
+              <div class="text-danger small">{{ login_form.username.errors }}</div>
+            </div>
+            <div class="form-group">
+              <input name="password" type="password" placeholder="Password" class="form-control">
+              <div class="text-danger small">{{ login_form.password.errors }}</div>
+            </div>
+            <button type="submit" name="login-submit" value="1" class="btn btn-primary btn-block">Login</button>
+            <a class="btn btn-link btn-sm btn-block" href="{% url 'signup' %}" style="background: none !important;">Create an account</a>
+          </form>
+        </div>
+        {% else %}
+          {% if user.is_staff %}
+            {% include 'partials/quick_create.html' %}
+            <div class="mt-3">
+              <div class="card p-3 admin-welcome">
+                <h5 class="admin-welcome-title">Welcome, {{ user.username }}</h5>
+                <a href="{% url 'dashboard' %}" class="btn btn-success btn-block mb-2">Go to Dashboard</a>
+                <a href="{% url 'logout' %}?next=/" class="btn btn-outline-secondary btn-block">Logout</a>
+              </div>
+            </div>
+          {% else %}
+            <div class="card p-3">
+              <h5>Welcome, {{ user.username }}</h5>
+              <a href="{% url 'dashboard' %}" class="btn btn-success btn-block mb-2">Go to Dashboard</a>
+              <a href="{% url 'logout' %}?next=/" class="btn btn-outline-secondary btn-block">Logout</a>
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'partials/home_tiles.html' %}
+
+<h3 class="mb-3">Featured Events</h3>
+<div class="row">
+  {% for event in featured %}
+  <div class="col-md-4 mb-3">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{ event.title }}</h5>
+        <p class="card-text">{{ event.description|truncatechars:120 }}</p>
+        <div class="mt-auto">
+          <a href="{% url 'event_detail' event.slug %}" class="btn btn-primary">View Event</a>
+          {% if user.is_authenticated and user.is_staff or user.is_authenticated and event.organizer == user or user.is_authenticated and user.is_superuser %}
+            <a href="{% url 'edit_event' event.pk %}" class="btn btn-outline-secondary ml-2">Edit</a>
+            <a href="{% url 'delete_event' event.pk %}" class="btn btn-outline-danger ml-2">Delete</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">No events yet — use the admin to create some.</div>
+  {% endfor %}
+</div>
+{% endblock %}

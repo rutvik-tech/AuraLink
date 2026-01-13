@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h2>{{ event.title }}</h2>
+    <p class="text-muted">{{ event.start_time|date:'M d, Y H:i' }} — {{ event.venue }}</p>
+    <p>{{ event.description }}</p>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5>Register for the Event</h5>
+        {% if event.price and event.price > 0 %}
+          <p class="text-warning">This is a paid event. Click below to pay and register.</p>
+          <a href="{% url 'checkout' event.slug %}" class="btn btn-success btn-block">Pay & Register</a>
+        {% else %}
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary btn-block">Submit</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+    <div class="mt-3">
+      <p><strong>Price:</strong> ${{ event.price }}</p>
+      <p><strong>Capacity:</strong> {{ event.capacity }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

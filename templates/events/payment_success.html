@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="alert alert-success">Payment successful. You're registered for <strong>{{ event.title }}</strong>.</div>
+<a href="{% url 'event_detail' event.slug %}" class="btn btn-primary">Back to Event</a>
+{% endblock %}

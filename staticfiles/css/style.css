@@ -1,0 +1,133 @@
+/* Simple custom styles for AuraLink */
+.hero {
+  color: #fff;
+  background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/static/images/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
+}
+.hero-content { padding: 80px 0; }
+.card { box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+/* Dashboard */
+.card{
+    transition: transform .12s ease, box-shadow .12s ease;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  border-radius: 12px;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 14px 34px rgba(15,23,42,0.12); 
+background: linear-gradient(135deg, #0072ff, #00c6ff);
+}
+.card.p-3 h3 { margin: 0; }
+.list-group-item { cursor: pointer; }
+
+/* Info tiles */
+.info-tile { padding: 20px; border-radius: 6px; color: #fff; }
+.info-tile.events { background: #2b8aef; }
+.info-tile.regs { background: #28a745; }
+.info-tile.small { font-size: 0.9rem; opacity: 0.9; }
+.info-tile.manage { background: #6f42c1; color: #fff; }
+.info-tile.manage .small { color: rgba(255,255,255,0.95); }
+.info-tile { transition: transform .12s ease; }
+.info-tile:hover { transform: translateY(-4px); }
+
+/* Ensure tiles do not change color on hover */
+.info-tile.events:hover { background: #2b8aef; }
+.info-tile.regs:hover { background: #28a745; }
+.info-tile.manage:hover { background: #6f42c1; }
+.info-tile.events h5, .info-tile.events p,
+.info-tile.regs h5, .info-tile.regs p,
+.info-tile.manage h5, .info-tile.manage p { color: #fff; }
+
+/* Clickable tile link styles */
+.tile-link { display: block; text-decoration: none; color: inherit; }
+.tile-link:hover { text-decoration: none; color: inherit; }
+
+/* Navbar logo */
+
+.d-none {
+    color: black;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand img.logo { height: 75px; margin-right: 8px; }
+
+.btn {
+    color: black;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+.btn:hover{background: linear-gradient(135deg, #2575fc, #6a11cb);}
+
+.form-inline{
+    background: linear-gradient(135deg, #000000, #f2f2f2);
+    padding: 9px; border-radius: 10px;
+}
+
+/* Minor hero tweaks */
+.hero .btn-lg { background: transparent; border: none; }
+
+/* Gradient theme variables */
+:root {
+  --grad-1: linear-gradient(135deg, #6f42c1 0%, #0d6efd 50%, #17a2b8 100%);
+  --card-grad: linear-gradient(180deg, rgba(111,66,193,0.06), rgba(13,110,253,0.04));
+}
+
+/* Gradient buttons */
+.btn-gradient {
+  background-image: var(--grad-1);
+  color: white;
+  border: none;
+  box-shadow: 0 6px 18px rgba(13,110,253,0.12);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn-gradient:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 30px rgba(13,110,253,0.18);
+}
+
+/* Card interactive hover */
+.card-interactive { transition: transform .12s ease, box-shadow .12s ease;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  border-radius: 12px;
+}
+
+.card-interactive:hover { transform: translateY(-6px); box-shadow: 0 14px 34px rgba(15,23,42,0.12); 
+background: linear-gradient(135deg, #0072ff, #00c6ff);
+}
+
+/* Category badge style */
+.badge-category { background: rgba(255,255,255,0.12); color: #fff; font-weight: 600; }
+
+/* Keep hero text readable */
+.hero { background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/static/images/hero.jpg'); }
+.hero .btn-lg { padding: 12px 24px; border-radius: 5px; background-color: #28a745;}
+
+
+/* Admin login specific styles */
+.admin-login h5 { color: #0d6efd; /* primary blue for admin header */ }
+.admin-login { color: #1f2d3d; }
+.admin-login .form-control::placeholder { color: rgba(31,45,61,0.5); }
+
+/* Quick Create and Welcome styling */
+.quick-create .quick-create-title { color: #17a2b8; /* info/teal */ font-weight: 700; }
+.quick-create label { color: #6f42c1; /* purple labels */ font-weight: 600; }
+.quick-create .form-control { color: #1f2d3d; }
+.admin-welcome .admin-welcome-title { color: #0d6efd; /* blue welcome text */ font-weight: 700; }
+
+/* Admin login styling */
+.admin-login { background: rgba(255,255,255,0.96); color: #0b1220; box-shadow: 0 12px 28px rgba(15,23,42,0.12); border-radius: 8px; position: relative; z-index: 5; padding: 18px; }
+.admin-login .admin-icon { font-size: 28px; background: #fff; padding: 8px; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.admin-login hr { margin: 10px 0; border-color: rgba(0,0,0,0.06); }
+.admin-login .btn-link { color: #6f42c1; }
+.admin-login .btn-link:hover { text-decoration: underline; }
+.admin-login .form-control { color: #111; }
+
+/* Field help and small errors */
+.field-help { font-size: 0.82rem; color: #6c757d; margin-top: 4px; }
+.text-danger.small { font-size: 0.82rem; }
+
+/* Ensure card bodies that use d-flex are column and fill height */
+.card .card-body.d-flex { display: flex; flex-direction: column; }
+
+
+

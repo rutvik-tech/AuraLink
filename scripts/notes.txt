@@ -1,0 +1,5 @@
+Notes:
+- After installing dependencies, run `python manage.py makemigrations && python manage.py migrate`
+- Create superuser: `python manage.py createsuperuser`
+- Seed example events: `python manage.py seed`
+- If you set DB_ENGINE to mysql, ensure `mysqlclient` is installed and MySQL server is running.

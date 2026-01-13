@@ -1,0 +1,1 @@
+Place hero image files here (e.g., hero.jpg). You can add assets later or replace with your own images.

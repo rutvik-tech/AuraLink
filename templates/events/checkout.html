@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Checkout — {{ event.title }}</h2>
+<p><strong>Price:</strong> Rs.{{ event.price }}</p>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-success">Pay and Register (Demo)</button>
+</form>
+{% endblock %}
