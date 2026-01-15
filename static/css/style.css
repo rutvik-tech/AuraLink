@@ -74,6 +74,11 @@
     color :#0072ff;
     text-shadow: none;;
 }
+
+.card.p-3 p {
+    text-shadow: none;
+}
+
 /* Clickable tile link styles */
 .tile-link { display: block; text-decoration: none; color: inherit; }
 .tile-link:hover { text-decoration: none; color: inherit; }
@@ -83,6 +88,7 @@
     color:black;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
 
 .navbar {
     position: relative;

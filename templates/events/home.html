@@ -32,7 +32,6 @@
               <div class="text-danger small">{{ login_form.password.errors }}</div>
             </div>
             <button type="submit" name="login-submit" value="1" class="btn btn-primary btn-block">Login</button>
-            <a class="btn btn-link btn-sm btn-block" href="{% url 'signup' %}" style="background: none !important;">Create an account</a>
           </form>
         </div>
         {% else %}
@@ -48,7 +47,7 @@
           {% else %}
             <div class="card p-3">
               <h5>Welcome, {{ user.username }}</h5>
-              <a href="{% url 'dashboard' %}" class="btn btn-success btn-block mb-2">Go to Dashboard</a>
+              <p class="text-muted mb-3">It's great to see you again! Ready to explore some amazing events today?</p>
               <a href="{% url 'logout' %}?next=/" class="btn btn-outline-secondary btn-block">Logout</a>
             </div>
           {% endif %}
@@ -58,7 +57,22 @@
   </div>
 </div>
 
-{% include 'partials/home_tiles.html' %}
+{%if not user.is_authenticated %}
+  {% include 'partials/home_tiles.html' %}
+{% endif %}
+
+{% if user.is_authenticated %}
+<div class="row justify-content-center my-4">
+  <div class="col-md-4">
+      <a href="{% url 'event_list' %}" class="tile-link">
+        <div class="card p-3 info-tile events text-center">
+          <h5>Find Events</h5>
+          <p class="small">Browse and discover upcoming events.</p>
+        </div>
+      </a>
+  </div>
+</div>
+{% endif %}
 
 <h3 class="mb-3">Featured Events</h3>
 <div class="row">
