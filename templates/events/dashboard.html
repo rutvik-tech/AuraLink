@@ -1,35 +1,125 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>Organizer Dashboard</h2>
-<div class="row mb-3">
-  <div class="col-md-3">
-    <div class="card p-3">
-      <h5>Total Registrations</h5>
-      <h3>{{ stats.total_registrations }}</h3>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 font-weight-bold text-dark">Organizer Dashboard</h2>
+        <a href="{% url 'create_event' %}" class="btn btn-primary btn-lg shadow-sm btn-pill">
+            <i class="fa fa-plus-circle"></i> Create New Event
+        </a>
     </div>
-  </div>
-  <div class="col-md-6 text-right">
-    <a href="{% url 'create_event' %}" class="btn btn-success mt-3">Create Event</a>
-  </div>
-</div>
 
-<h4>Your Events</h4>
-<div class="list-group mb-4">
-  {% for event in events %}
-    <a href="{% url 'organizer_event_detail' event.pk %}" class="list-group-item list-group-item-action">
-      <strong>{{ event.title }}</strong> — {{ event.start_time|date:'M d, Y' }}
-    </a>
-  {% empty %}
-    <div class="alert alert-info">You haven't created any events yet.</div>
-  {% endfor %}
-</div>
+    <!-- Stats Row -->
+    <div class="row mb-5">
+        <div class="col-md-6 mb-3">
+            <div class="info-tile events d-flex align-items-center justify-content-between h-100">
+                <div>
+                    <h3 class="mb-0 display-4 font-weight-bold">{{ stats.total_events }}</h3>
+                    <p class="mb-0 text-white-50 font-weight-bold text-uppercase small">Total Events</p>
+                </div>
+                <i class="fa fa-calendar fa-3x opacity-25"></i>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="info-tile regs d-flex align-items-center justify-content-between h-100">
+                <div>
+                    <h3 class="mb-0 display-4 font-weight-bold">{{ stats.total_registrations }}</h3>
+                    <p class="mb-0 text-white-50 font-weight-bold text-uppercase small">Total Registrations</p>
+                </div>
+                <i class="fa fa-users fa-3x opacity-25"></i>
+            </div>
+        </div>
+    </div>
 
-<h4>Recent Registrations</h4>
-<ul class="list-group">
-  {% for reg in registrations %}
-    <li class="list-group-item">{{ reg.full_name }} — {{ reg.event.title }} <span class="text-muted float-right">{{ reg.created_at|date:'M d' }}</span></li>
-  {% empty %}
-    <li class="list-group-item">No registrations yet.</li>
-  {% endfor %}
-</ul>
+    <!-- Your Events Section -->
+    <h4 class="mb-4 text-muted font-weight-bold text-uppercase small border-bottom pb-2">Your Events</h4>
+    {% if categorized_events %}
+        {% for category, cat_events in categorized_events %}
+        <h5 class="mb-3 {% if not forloop.first %}mt-4{% endif %} text-primary font-weight-bold">{{ category.name|default:"Uncategorized" }}</h5>
+        <div class="row">
+            {% for event in cat_events %}
+            <div class="col-md-4 mb-4">
+            <div class="card event-card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0 text-truncate font-weight-bold" title="{{ event.title }}">
+                            <a href="{% url 'organizer_event_detail' event.pk %}" class="text-dark text-decoration-none stretched-link">
+                                {{ event.title }}
+                            </a>
+                        </h5>
+                        {% if event.price > 0 %}
+                        <span class="badge badge-success badge-pill">${{ event.price }}</span>
+                        {% else %}
+                        <span class="badge badge-info badge-pill">Free</span>
+                        {% endif %}
+                    </div>
+                    <p class="card-text text-muted small mb-2">
+                        <i class="fa fa-clock-o mr-1"></i> {{ event.start_time|date:"M d, Y H:i" }}
+                    </p>
+                    <p class="card-text text-muted small mb-3">
+                        <i class="fa fa-map-marker mr-1"></i> {{ event.venue }}
+                    </p>
+                    
+                    <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center position-relative" style="z-index: 2;">
+                        <a href="{% url 'organizer_event_detail' event.pk %}" class="btn btn-sm btn-outline-primary font-weight-bold">
+                            Manage
+                        </a>
+                        <div>
+                            <a href="{% url 'edit_event' event.pk %}" class="btn btn-sm btn-outline-secondary" title="Edit">
+                                <i class="fa fa-pencil"></i> Edit
+                            </a>
+                            <a href="{% url 'delete_event' event.pk %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {% else %}
+    <div class="text-center py-5 text-muted bg-light rounded">
+        <p class="mb-3">You haven't created any events yet.</p>
+        <a href="{% url 'create_event' %}" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+    {% endif %}
+
+    <!-- Recent Registrations -->
+    <h4 class="mb-3 mt-5 text-muted font-weight-bold text-uppercase small border-bottom pb-2">Recent Registrations</h4>
+    <!-- Since we don't have a partial, we build the table directly -->
+    <div class="card shadow-sm border-0 overflow-hidden">
+        <div class="card-body p-0">
+            {% if registrations %}
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light text-muted small text-uppercase">
+                        <tr>
+                            <th class="border-top-0 pl-4">Attendee</th>
+                            <th class="border-top-0">Event</th>
+                            <th class="border-top-0">Email</th>
+                            <th class="border-top-0">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reg in registrations %}
+                        <tr>
+                            <td class="align-middle pl-4 font-weight-bold text-dark">{{ reg.full_name }}</td>
+                            <td class="align-middle">{{ reg.event.title }}</td>
+                            <td class="align-middle">{{ reg.email }}</td>
+                            <td class="align-middle text-muted small">{{ reg.created_at|date:"M d, Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="p-4 text-center text-muted">
+                No registrations found.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

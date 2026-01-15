@@ -7,6 +7,7 @@
     <p>{{ event.description }}</p>
   </div>
   <div class="col-md-4">
+    {% if not user.is_superuser %}
     <div class="card">
       <div class="card-body">
         <h5>Register for the Event</h5>
@@ -20,6 +21,7 @@
             <button class="btn btn-primary btn-block">Submit</button>
           </form>
         {% endif %}
+    {% endif %}
       </div>
     </div>
     <div class="mt-3">

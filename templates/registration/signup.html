@@ -1,39 +1,36 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>Create an account</h2>
+<div class="login-bg">
+    <div class="login-panel">
+        <div class="login-icon mb-4">
+            <i class="fa fa-user-plus fa-3x text-primary"></i>
+        </div>
+        <h3 class="mb-2 font-weight-bold">Create Account</h3>
+        <p class="text-muted mb-4">Join us to manage and attend events</p>
 
-{% if form.non_field_errors %}
-  <div class="alert alert-danger small">
-    {% for err in form.non_field_errors %}
-      <div>{{ err }}</div>
-    {% endfor %}
-  </div>
-{% endif %}
+        <form method="post">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-group text-left mb-3">
+                <label for="{{ field.id_for_label }}" class="font-weight-bold small text-uppercase text-muted pl-1">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="form-text text-muted pl-1">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                <div class="text-danger small pl-1 mt-1">{{ error }}</div>
+                {% endfor %}
+            </div>
+            {% endfor %}
 
-<form method="post">
-  {% csrf_token %}
-  <div class="form-group">
-    {{ form.username.label_tag }}
-    {{ form.username }}
-    {% if form.username.errors %}<div class="text-danger small">{{ form.username.errors|join:", " }}</div>{% endif %}
-  </div>
-  <div class="form-group">
-    {{ form.email.label_tag }}
-    {{ form.email }}
-    {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors|join:", " }}</div>{% endif %}
-  </div>
-  <div class="form-group">
-    {{ form.password1.label_tag }}
-    {{ form.password1 }}
-    {% if form.password1.help_text %}<div class="field-help small text-muted">{{ form.password1.help_text }}</div>{% endif %}
-    {% if form.password1.errors %}<div class="text-danger small">{{ form.password1.errors|join:", " }}</div>{% endif %}
-  </div>
-  <div class="form-group">
-    {{ form.password2.label_tag }}
-    {{ form.password2 }}
-    {% if form.password2.help_text %}<div class="field-help small text-muted">{{ form.password2.help_text }}</div>{% endif %}
-    {% if form.password2.errors %}<div class="text-danger small">{{ form.password2.errors|join:", " }}</div>{% endif %}
-  </div>
-  <button class="btn btn-success">Sign up</button>
-</form>
+            <button type="submit" class="btn btn-primary btn-block btn-login-submit mt-4">Sign Up</button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <p class="small text-muted">Already have an account? <a href="{% url 'home' %}" class="text-primary font-weight-bold">Log In</a></p>
+        </div>
+    </div>
+</div>
 {% endblock %}

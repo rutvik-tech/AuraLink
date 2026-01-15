@@ -13,9 +13,6 @@ from .forms import RegistrationForm, SignUpForm, EventForm
 def home(request):
     # Embedded login handling on homepage (admin login)
     login_form = AuthenticationForm()
-    create_form = None
-    if request.user.is_authenticated and request.user.is_staff:
-        create_form = EventForm()
 
     # Handle login submission. Accept explicit button press or Enter (username+password present).
     login_attempt = (request.method == 'POST' and (
@@ -34,23 +31,9 @@ def home(request):
             # Let the template display form errors too for clarity
             messages.error(request, 'Login failed — check your username and password.')
 
-    # Handle inline event creation from homepage (staff only)
-    if request.method == 'POST' and request.POST.get('create-event-submit'):
-        if not (request.user.is_authenticated and request.user.is_staff):
-            messages.error(request, 'You are not authorized to create events here.')
-            return redirect('home')
-        create_form = EventForm(request.POST, request.FILES)
-        if create_form.is_valid():
-            ev = create_form.save(commit=False)
-            ev.organizer = request.user
-            ev.save()
-            messages.success(request, f'Event "{ev.title}" created successfully.')
-            return redirect('dashboard')
-        else:
-            messages.error(request, 'Please correct the errors in the event form.')
 
     featured = Event.objects.order_by('-start_time')[:6]
-    return render(request, 'events/home.html', {'featured': featured, 'login_form': login_form, 'create_form': create_form})
+    return render(request, 'events/home.html', {'featured': featured, 'login_form': login_form})
 
 
 def _can_manage_event(user, event=None):
@@ -95,6 +78,10 @@ def delete_event(request, pk):
 
 
 def event_list(request):
+    if not request.user.is_authenticated:
+        messages.info(request, "Please login to view events.")
+        return redirect('home')
+
     # Optional category filter via ?category=<slug>
     category_slug = request.GET.get('category')
     categories = Category.objects.order_by('name')
@@ -120,14 +107,21 @@ from django.conf import settings
 
 
 def event_detail(request, slug):
+    if not request.user.is_authenticated:
+        messages.info(request, "Please login to view event details.")
+        return redirect('home')
+
     event = get_object_or_404(Event, slug=slug)
     if request.method == 'POST':
+        if request.user.is_superuser:
+            messages.warning(request, "Admins cannot register for events.")
+            return redirect('event_detail', slug=event.slug)
+
         form = RegistrationForm(request.POST)
         if form.is_valid():
             reg = form.save(commit=False)
             reg.event = event
             reg.save()
-
             # send confirmation email (console backend in dev)
             try:
                 send_mail(
@@ -149,7 +143,15 @@ def event_detail(request, slug):
 
 def checkout(request, slug):
     """Simple simulated checkout flow (placeholder for Stripe integration)."""
+    if not request.user.is_authenticated:
+        messages.info(request, "Please login to register.")
+        return redirect('home')
+
     event = get_object_or_404(Event, slug=slug)
+    if request.user.is_superuser:
+        messages.warning(request, "Admins cannot register for events.")
+        return redirect('event_detail', slug=event.slug)
+
     if request.method == 'POST':
         # For this demo we treat this as a successful payment and create the registration
         form = RegistrationForm(request.POST)
@@ -196,13 +198,34 @@ def is_organizer(user):
 def dashboard(request):
     if not is_organizer(request.user):
         return redirect('event_list')
-    events = Event.objects.filter(organizer=request.user).order_by('-start_time')
-    regs = Registration.objects.filter(event__organizer=request.user).order_by('-created_at')[:10]
-    stats = {
-        'total_events': events.count(),
-        'total_registrations': Registration.objects.filter(event__organizer=request.user).count(),
-    }
-    return render(request, 'events/dashboard.html', {'events': events, 'registrations': regs, 'stats': stats})
+
+    if request.user.is_superuser:
+        events = Event.objects.order_by('-start_time')
+        regs = Registration.objects.order_by('-created_at')[:10]
+        stats = {
+            'total_events': events.count(),
+            'total_registrations': Registration.objects.count(),
+        }
+    else:
+        events = Event.objects.filter(organizer=request.user).order_by('-start_time')
+        regs = Registration.objects.filter(event__organizer=request.user).order_by('-created_at')[:10]
+        stats = {
+            'total_events': events.count(),
+            'total_registrations': Registration.objects.filter(event__organizer=request.user).count(),
+        }
+
+    categorized_events = []
+    categories = Category.objects.order_by('name')
+    for cat in categories:
+        cat_events = events.filter(category=cat)
+        if cat_events.exists():
+            categorized_events.append((cat, cat_events))
+
+    uncategorized = events.filter(category__isnull=True)
+    if uncategorized.exists():
+        categorized_events.append((None, uncategorized))
+
+    return render(request, 'events/dashboard.html', {'events': events, 'categorized_events': categorized_events, 'registrations': regs, 'stats': stats})
 
 
 @login_required
@@ -224,6 +247,8 @@ def create_event(request):
 @login_required
 @user_passes_test(is_organizer)
 def organizer_event_detail(request, pk):
-    ev = get_object_or_404(Event, pk=pk, organizer=request.user)
+    ev = get_object_or_404(Event, pk=pk)
+    if not _can_manage_event(request.user, ev):
+        return HttpResponseForbidden()
     regs = ev.registrations.all()
     return render(request, 'events/organizer_event_detail.html', {'event': ev, 'registrations': regs})
