@@ -140,7 +140,7 @@ def event_detail(request, slug):
             except Exception:
                 pass
 
-            messages.success(request, 'Registration received — a confirmation email was sent (console in dev).')
+            messages.success(request, 'Registration Successful')
             return redirect('event_detail', slug=event.slug)
     else:
         form = RegistrationForm()
@@ -193,9 +193,9 @@ def is_organizer(user):
     return user.is_authenticated and user.is_staff
 
 
-@login_required
-@user_passes_test(is_organizer)
 def dashboard(request):
+    if not is_organizer(request.user):
+        return redirect('event_list')
     events = Event.objects.filter(organizer=request.user).order_by('-start_time')
     regs = Registration.objects.filter(event__organizer=request.user).order_by('-created_at')[:10]
     stats = {

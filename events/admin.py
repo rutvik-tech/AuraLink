@@ -20,3 +20,4 @@ class EventAdmin(admin.ModelAdmin):
 class RegistrationAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'email', 'event', 'created_at')
     list_filter = ('event',)
+    search_fields = ('full_name', 'email', 'event__title')

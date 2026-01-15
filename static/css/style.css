@@ -2,10 +2,18 @@
 
 .hero {
   color: #fff;
-  background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/static/images/hero.jpg');
+  background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/static/images/hero.jpg');
   background-size: cover;
-  background-position: center;
-  border-radius: 6px;
+  background-position: center top;
+  border-radius: 0;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: 0;
 }
 
 .hero-content { padding: 80px 0; }
@@ -53,7 +61,7 @@ background: linear-gradient(135deg, #0072ff, #00c6ff);
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.navbar-brand img.logo { height: 75px; margin-right: 8px; }
+.navbar-brand img.logo { height: 40px; margin-right: 8px; }
 
 .btn {
     color: black;
@@ -104,7 +112,12 @@ background: linear-gradient(135deg, #0072ff, #00c6ff);
 .badge-category { background: rgba(255,255,255,0.12); color: #fff; font-weight: 600; }
 
 /* Keep hero text readable */
-.hero { background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/static/images/hero.jpg'); }
+.hero h1, .hero h2, .hero h3, .hero h4, .hero h5, .hero p {
+    text-shadow: 0 4px 8px rgba(0,0,0,1);
+    font-weight: 600;
+}
+
+.hero { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/static/images/hero.jpg'); }
 .hero .btn-lg { padding: 12px 24px; border-radius: 5px; background-color: #28a745;}
 
 
@@ -145,4 +158,5 @@ footer {
 
 body{
     background: white;
+    overflow-x: hidden; /* Prevent horizontal scroll from full-width hero */
 }
