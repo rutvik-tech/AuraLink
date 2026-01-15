@@ -16,7 +16,7 @@
   margin-top: 0;
 }
 
-.hero-content { padding: 80px 0; }
+.hero-content { padding: 140px 0; }
 .card { box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 
 /* Dashboard */
@@ -133,7 +133,19 @@ background: linear-gradient(135deg, #0072ff, #00c6ff);
 .admin-welcome .admin-welcome-title { color: #0d6efd; /* blue welcome text */ font-weight: 700; }
 
 /* Admin login styling */
-.admin-login { background: rgba(255,255,255,0.96); color: #0b1220; box-shadow: 0 12px 28px rgba(15,23,42,0.12); border-radius: 8px; position: relative; z-index: 5; padding: 18px; }
+.admin-login { 
+  background: rgba(255,255,255,0.75); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #0b1220; 
+  box-shadow: none; 
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 16px; 
+  position: relative; 
+  z-index: 5; 
+  padding: 24px; 
+  margin-top: 40px;
+}
 .admin-login .admin-icon { font-size: 28px; background: #fff; padding: 8px; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 .admin-login hr { margin: 10px 0; border-color: rgba(0,0,0,0.06); }
 .admin-login .btn-link { color: #6f42c1; }
@@ -159,4 +171,11 @@ footer {
 body{
     background: white;
     overflow-x: hidden; /* Prevent horizontal scroll from full-width hero */
+}
+
+/* Fix for messages appearing behind navbar */
+.alert, .messages {
+    margin-top: 100px;
+    position: relative;
+    z-index: 1050;
 }
