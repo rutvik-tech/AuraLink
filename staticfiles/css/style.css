@@ -1,65 +1,111 @@
 /* Simple custom styles for AuraLink */
+
 .hero {
   color: #fff;
-  background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/static/images/hero.jpg');
+  background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/static/images/hero.jpg');
   background-size: cover;
-  background-position: center;
-  border-radius: 6px;
+  background-position: center top;
+  border-radius: 0;
+  width: 100vw;
+  min-height: 100vh; height: auto;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: 0;
 }
-.hero-content { padding: 80px 0; }
+
+.hero-content { padding: 140px 0; }
 .card { box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 
 /* Dashboard */
 .card{
-    transition: transform .12s ease, box-shadow .12s ease;
-  background: linear-gradient(135deg, #00c6ff, #0072ff);
-  border-radius: 12px;
+  transition: transform .3s ease, box-shadow .3s ease;
+  background: #fff;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  overflow: hidden;
 }
-.card:hover { transform: translateY(-6px); box-shadow: 0 14px 34px rgba(15,23,42,0.12); 
-background: linear-gradient(135deg, #0072ff, #00c6ff);
+
+.card:hover { 
+  transform: translateY(-5px); 
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
 }
+
 .card.p-3 h3 { margin: 0; }
 .list-group-item { cursor: pointer; }
 
 /* Info tiles */
-.info-tile { padding: 20px; border-radius: 6px; color: #fff; }
-.info-tile.events { background: #2b8aef; }
-.info-tile.regs { background: #28a745; }
+.info-tile { 
+  padding: 25px; 
+  border-radius: 15px; 
+  color: #fff; 
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.info-tile.events { background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%); }
+.info-tile.regs { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
 .info-tile.small { font-size: 0.9rem; opacity: 0.9; }
-.info-tile.manage { background: #6f42c1; color: #fff; }
+.info-tile.manage { background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%); color: #fff; }
 .info-tile.manage .small { color: rgba(255,255,255,0.95); }
-.info-tile { transition: transform .12s ease; }
-.info-tile:hover { transform: translateY(-4px); }
+
+.info-tile:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
 
 /* Ensure tiles do not change color on hover */
-.info-tile.events:hover { background: #2b8aef; }
-.info-tile.regs:hover { background: #28a745; }
-.info-tile.manage:hover { background: #6f42c1; }
+.info-tile.events:hover { background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%); }
+.info-tile.regs:hover { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+.info-tile.manage:hover { background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%); }
+
+/* Dashboard Animation */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.container { animation: fadeInUp 0.8s ease-out; }
 .info-tile.events h5, .info-tile.events p,
 .info-tile.regs h5, .info-tile.regs p,
 .info-tile.manage h5, .info-tile.manage p { color: #fff; }
+
+.card.p-3 h5{
+    color :#0072ff;
+    text-shadow: none;;
+}
+
+.card.p-3 p {
+    text-shadow: none;
+}
 
 /* Clickable tile link styles */
 .tile-link { display: block; text-decoration: none; color: inherit; }
 .tile-link:hover { text-decoration: none; color: inherit; }
 
 /* Navbar logo */
-
 .d-none {
-    color: black;
+    color:black;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.navbar-brand img.logo { height: 75px; margin-right: 8px; }
+
+.navbar {
+    position: relative;
+    width: 100%;
+}
+
+.navbar-brand img.logo { height: 40px; margin-right: 8px; }
 
 .btn {
     color: black;
     background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
+
 .btn:hover{background: linear-gradient(135deg, #2575fc, #6a11cb);}
 
 .form-inline{
-    background: linear-gradient(135deg, #000000, #f2f2f2);
+    background: linear-gradient(135deg, #ffffff, #f2f2f2);
     padding: 9px; border-radius: 10px;
 }
 
@@ -80,6 +126,7 @@ background: linear-gradient(135deg, #0072ff, #00c6ff);
   box-shadow: 0 6px 18px rgba(13,110,253,0.12);
   transition: transform .15s ease, box-shadow .15s ease;
 }
+
 .btn-gradient:hover {
   transform: translateY(-3px);
   box-shadow: 0 18px 30px rgba(13,110,253,0.18);
@@ -99,28 +146,91 @@ background: linear-gradient(135deg, #0072ff, #00c6ff);
 .badge-category { background: rgba(255,255,255,0.12); color: #fff; font-weight: 600; }
 
 /* Keep hero text readable */
-.hero { background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/static/images/hero.jpg'); }
+.hero h1, .hero h2, .hero h3, .hero h4, .hero h5, .hero p {
+    text-shadow: 0 4px 8px rgba(0,0,0,1);
+    font-weight: 600;
+}
+
+.hero { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/static/images/hero.jpg'); }
 .hero .btn-lg { padding: 12px 24px; border-radius: 5px; background-color: #28a745;}
 
 
 /* Admin login specific styles */
-.admin-login h5 { color: #0d6efd; /* primary blue for admin header */ }
+.admin-login h5 { color: #0d6efd; text-shadow: none; }
 .admin-login { color: #1f2d3d; }
 .admin-login .form-control::placeholder { color: rgba(31,45,61,0.5); }
 
 /* Quick Create and Welcome styling */
-.quick-create .quick-create-title { color: #17a2b8; /* info/teal */ font-weight: 700; }
-.quick-create label { color: #6f42c1; /* purple labels */ font-weight: 600; }
-.quick-create .form-control { color: #1f2d3d; }
-.admin-welcome .admin-welcome-title { color: #0d6efd; /* blue welcome text */ font-weight: 700; }
+.admin-welcome .admin-welcome-title { color: #0d6efd; font-weight: 700; text-shadow: none; }
 
 /* Admin login styling */
-.admin-login { background: rgba(255,255,255,0.96); color: #0b1220; box-shadow: 0 12px 28px rgba(15,23,42,0.12); border-radius: 8px; position: relative; z-index: 5; padding: 18px; }
+.admin-login { 
+  background: rgba(255,255,255,0.75); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #0b1220; 
+  box-shadow: 0 12px 28px rgba(15,23,42,0.12); 
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 16px; 
+  position: relative; 
+  z-index: 5; 
+  padding: 24px; 
+  margin-top: 40px;
+  text-shadow: none;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
 .admin-login .admin-icon { font-size: 28px; background: #fff; padding: 8px; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 .admin-login hr { margin: 10px 0; border-color: rgba(0,0,0,0.06); }
 .admin-login .btn-link { color: #6f42c1; }
 .admin-login .btn-link:hover { text-decoration: underline; }
-.admin-login .form-control { color: #111; }
+.admin-login .form-control { 
+    color: #111; 
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: all 0.2s ease;
+}
+
+.admin-login .form-control:focus,
+input[name="username"]:focus,
+input[name="password"]:focus {
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+    border-color: #0d6efd;
+    transform: scale(1.02);
+}
+.admin-login .btn {
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+.admin-login .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+}
+
+/* Specific style for Create Account button in login panel */
+
+.admin-login .btn-create,
+.btn-create {
+    background: transparent;
+    box-shadow: none;
+    border: 1px solid rgba(0,0,0,0.15);
+    color: #1f2d3d;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 /* Field help and small errors */
 .field-help { font-size: 0.82rem; color: #6c757d; margin-top: 4px; }
@@ -130,4 +240,169 @@ background: linear-gradient(135deg, #0072ff, #00c6ff);
 .card .card-body.d-flex { display: flex; flex-direction: column; }
 
 
+footer::before {
+    content: "Connecting People, Creating Memories.";
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #495057;
+}
 
+footer::after {
+    content: "© 2026 AuraLink. All rights reserved. | Privacy Policy";
+    display: block;
+    margin-top: 10px;
+    color: #6c757d;
+}
+
+body{
+    background: white;
+    overflow-x: hidden; /* Prevent horizontal scroll from full-width hero */
+}
+
+/* Fix for messages appearing behind navbar */
+.alert, .messages {
+    margin-top: 20px;
+    position: relative;
+    z-index: 1050;
+    text-shadow: none;
+}
+
+/* Admin Welcome and Create Event Panels */
+.admin-welcome {
+    display: inline-block;
+    vertical-align: top;
+    width: 90%;
+    margin: 0.5%;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(15,23,42,0.12);
+    border: 1px solid rgba(255,255,255,0.4);
+    position: relative;
+    z-index: 10;
+    text-align: left;
+    text-shadow: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-welcome:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(15,23,42,0.18);
+    border-color: rgba(255,255,255,0.8);
+}
+
+/* Dedicated Login Page Styling */
+.login-bg {
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/static/images/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    min-height: 100vh;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.login-panel {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid rgba(255,255,255,0.5);
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+/* Ensure inputs in login panel look good even without form-control class */
+.login-panel input[type="text"],
+.login-panel input[type="password"],
+.login-panel input[type="email"] {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.8);
+    transition: all 0.2s ease;
+}
+
+.login-panel input:focus {
+    transform: scale(1.02);
+    background: #fff;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+    outline: none;
+}
+
+.btn-login-submit {
+    background-image: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    border: none;
+    padding: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
+}
+
+.btn-login-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 117, 252, 0.5);
+    background-image: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+}
+
+.login-icon svg {
+    filter: drop-shadow(0 4px 6px rgba(13, 110, 253, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.login-panel:hover .login-icon svg {
+    transform: scale(1.1);
+}
+
+/* Dashboard Event Cards */
+.event-card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    background: #fff;
+}
+
+.event-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.event-card .card-title a {
+    transition: color 0.2s;
+}
+
+.event-card:hover .card-title a {
+    color: #0d6efd;
+}
+
+.btn-pill { border-radius: 50px; padding-left: 1.5rem; padding-right: 1.5rem; }
+
+/* Table Enhancements */
+.table-hover tbody tr { transition: background-color 0.2s; }
+.table-hover tbody tr:hover { background-color: rgba(13, 110, 253, 0.03); }
+.opacity-25 { opacity: 0.25; }
